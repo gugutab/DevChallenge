@@ -3,7 +3,7 @@ package com.tabdeveloper.devchallenge.application
 open class AppConfiguration {
     companion object {
         const val databaseUrl =
-            "https://firebasestorage.googleapis.com/v0/b/desafio-dev-android.appspot.com/o/assets.json/"
+            "https://firebasestorage.googleapis.com/v0/b/desafio-dev-android.appspot.com/o/"
 
         const val alt =
             "media"
