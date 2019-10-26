@@ -31,17 +31,21 @@ class HomeAdapter(val context: Context, val videoListModel: VideoListModel) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as VideoListViewHolder).bind(videoListModel.objects[position])
+        (holder as VideoListViewHolder).bind(videoListModel.objects[position], position, videoListModel)
     }
 
 }
 
 class VideoListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun bind(videoModel: VideoModel) {
+    fun bind(
+        videoModel: VideoModel,
+        position: Int,
+        videoListModel: VideoListModel
+    ) {
         itemView.setOnClickListener {
             startActivity(
                 itemView.context,
-                PlayerActivity.newIntent(itemView.context, videoModel),
+                PlayerActivity.newIntent(itemView.context, videoListModel, position),
                 null
             )
         }

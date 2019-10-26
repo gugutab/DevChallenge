@@ -6,8 +6,10 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.tabdeveloper.devchallenge.R
+import com.tabdeveloper.devchallenge.data.model.VideoListModel
 import com.tabdeveloper.devchallenge.data.model.VideoModel
 import kotlinx.android.synthetic.main.activity_player.*
 import timber.log.Timber
@@ -15,23 +17,31 @@ import timber.log.Timber
 class PlayerActivity : AppCompatActivity() {
 
     companion object {
-        val VIDEO_MODEL = "video_model"
+        val VIDEO_LIST_MODEL = "video_list_model"
+        val SELECTED_POSITION = "selected_position"
 
-        fun newIntent(context: Context, videoModel: VideoModel): Intent {
+        fun newIntent(
+            context: Context, videoListModel: VideoListModel, selectedPosition: Int
+        ): Intent {
             val intent = Intent(context, PlayerActivity::class.java)
-            intent.putExtra(VIDEO_MODEL, videoModel)
+            intent.putExtra(VIDEO_LIST_MODEL, videoListModel)
+            intent.putExtra(SELECTED_POSITION, selectedPosition)
             return intent
         }
     }
 
 
     private var audioMediaPlayer: MediaPlayer? = null
+    private var videoListModel: VideoListModel? = null
     private var videoModel: VideoModel? = null
+    private var currentPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-        videoModel = intent.getParcelableExtra(VIDEO_MODEL)
+        videoListModel = intent.getParcelableExtra(VIDEO_LIST_MODEL)
+        currentPosition = intent.getIntExtra(SELECTED_POSITION, 0)
+        videoModel = videoListModel?.objects?.get(currentPosition)
 
         activity_player_play_pause_button.setOnClickListener {
             if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
@@ -45,10 +55,49 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    fun setupPlayPauseButton(){
+    fun setupButtons() {
+        setupPlayPauseButton()
+        if (!videoListModel?.objects.isNullOrEmpty()) {
+            activity_player_previous_button.isVisible = true
+            activity_player_next_button.isVisible = true
+
+            activity_player_previous_button.isEnabled = true
+            activity_player_next_button.isEnabled = true
+
+            activity_player_previous_button.setColorFilter(
+                ContextCompat.getColor(
+                    this,
+                    R.color.black
+                )
+            )
+            activity_player_next_button.setColorFilter(ContextCompat.getColor(this, R.color.black))
+            when (currentPosition) {
+                0 -> {
+                    activity_player_previous_button.isEnabled = false
+                    activity_player_previous_button.setColorFilter(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.gray
+                        )
+                    )
+                }
+                ((videoListModel?.objects?.size ?: 0) - 1) -> {
+                    activity_player_next_button.isEnabled = false
+                    activity_player_next_button.setColorFilter(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.gray
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun setupPlayPauseButton() {
         if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
             activity_player_play_pause_button.setImageResource(R.drawable.ic_pause_circle_outline_black_72dp)
-        } else{
+        } else {
             activity_player_play_pause_button.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
         }
     }
@@ -62,6 +111,7 @@ class PlayerActivity : AppCompatActivity() {
                 Timber.d("prepared")
                 it.start()
                 activity_player_play_pause_button.isVisible = true
+                setupButtons()
             }
             audioMediaPlayer?.setOnCompletionListener {
                 activity_player_videoview.stopPlayback()
