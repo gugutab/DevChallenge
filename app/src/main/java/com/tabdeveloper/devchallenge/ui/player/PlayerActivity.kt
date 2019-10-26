@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.model.VideoModel
 import kotlinx.android.synthetic.main.activity_player.*
@@ -31,6 +32,25 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         videoModel = intent.getParcelableExtra(VIDEO_MODEL)
+
+        activity_player_play_pause_button.setOnClickListener {
+            if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
+                audioMediaPlayer?.pause()
+                activity_player_videoview.pause()
+            } else {
+                audioMediaPlayer?.start()
+                activity_player_videoview.start()
+            }
+            setupPlayPauseButton()
+        }
+    }
+
+    fun setupPlayPauseButton(){
+        if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
+            activity_player_play_pause_button.setImageResource(R.drawable.ic_pause_circle_outline_black_72dp)
+        } else{
+            activity_player_play_pause_button.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
+        }
     }
 
     override fun onResume() {
@@ -41,6 +61,7 @@ class PlayerActivity : AppCompatActivity() {
             audioMediaPlayer?.setOnPreparedListener {
                 Timber.d("prepared")
                 it.start()
+                activity_player_play_pause_button.isVisible = true
             }
             audioMediaPlayer?.setOnCompletionListener {
                 activity_player_videoview.stopPlayback()

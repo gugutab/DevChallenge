@@ -11,6 +11,7 @@ androidExtensions {
 android {
     compileSdkVersion 28
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.tabdeveloper.devchallenge"
         minSdkVersion 14
         targetSdkVersion 28
