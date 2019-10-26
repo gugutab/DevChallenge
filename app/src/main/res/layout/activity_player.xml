@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.player.PlayerActivity">
 
+    <VideoView
+        android:id="@+id/activity_player_videoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>
