@@ -1,7 +1,8 @@
-package com.tabdeveloper.devchallenge
+package com.tabdeveloper.devchallenge.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.tabdeveloper.devchallenge.R
 
 class MainActivity : AppCompatActivity() {
 
