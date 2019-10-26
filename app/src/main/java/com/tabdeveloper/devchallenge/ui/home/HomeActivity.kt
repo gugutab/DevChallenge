@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.Module
+import com.tabdeveloper.devchallenge.data.services.VideoService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
@@ -16,7 +17,9 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        videoService.getVideoModelList()
+
+//        videoService.getVideoModelList()
+        VideoService.getVideoModelListMock() // todo revert to actual data
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 activity_main_recycler.layoutManager = LinearLayoutManager(this)
