@@ -22,7 +22,7 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_player)
         val videoModel: VideoModel = intent.getParcelableExtra(VIDEO_MODEL)
         Timber.d("PlayerActivity: $videoModel")
     }

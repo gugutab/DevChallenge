@@ -12,7 +12,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.tabdeveloper.devchallenge"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -23,6 +23,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -47,4 +51,8 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
+
+    // ExoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.10.6'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.10.6'
 }
