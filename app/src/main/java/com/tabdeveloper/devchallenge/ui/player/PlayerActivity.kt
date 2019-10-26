@@ -40,9 +40,19 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         videoListModel = intent.getParcelableExtra(VIDEO_LIST_MODEL)
-        currentPosition = intent.getIntExtra(SELECTED_POSITION, 0)
-        videoModel = videoListModel?.objects?.get(currentPosition)
+        changeCurrentPosition(intent.getIntExtra(SELECTED_POSITION, 0))
+    }
 
+    fun changeCurrentPosition(newPosition: Int) {
+        currentPosition = newPosition
+        videoModel = videoListModel?.objects?.get(currentPosition)
+        setupButtons()
+        setupPlayPauseButton()
+        startPlayback()
+    }
+
+    fun setupButtons() {
+        setupPlayPauseButton()
         activity_player_play_pause_button.setOnClickListener {
             if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
                 audioMediaPlayer?.pause()
@@ -53,11 +63,22 @@ class PlayerActivity : AppCompatActivity() {
             }
             setupPlayPauseButton()
         }
-    }
-
-    fun setupButtons() {
-        setupPlayPauseButton()
         if (!videoListModel?.objects.isNullOrEmpty()) {
+            activity_player_previous_button.setOnClickListener {
+                if (currentPosition == 0) {
+                    changeCurrentPosition((videoListModel?.objects?.size ?: 0) - 1)
+                } else {
+                    changeCurrentPosition(currentPosition - 1)
+                }
+            }
+            activity_player_next_button.setOnClickListener {
+                if (currentPosition == (videoListModel?.objects?.size ?: 0) - 1) {
+                    changeCurrentPosition(0)
+                } else {
+                    changeCurrentPosition(currentPosition + 1)
+                }
+            }
+
             activity_player_previous_button.isVisible = true
             activity_player_next_button.isVisible = true
 
@@ -102,8 +123,12 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    fun startPlayback() {
+        // clear
+        audioMediaPlayer?.pause()
+        audioMediaPlayer?.release()
+        activity_player_videoview?.stopPlayback()
+        //
         videoModel?.let {
             // audio
             audioMediaPlayer = MediaPlayer.create(this, Uri.parse(it.audio))
@@ -128,6 +153,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onPause() {
         audioMediaPlayer?.pause()
         audioMediaPlayer?.release()
+        activity_player_videoview?.stopPlayback()
         super.onPause()
     }
 }
