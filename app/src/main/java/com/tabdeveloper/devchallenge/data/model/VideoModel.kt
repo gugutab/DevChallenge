@@ -1,3 +1,10 @@
 package com.tabdeveloper.devchallenge.data.model
 
-data class VideoModel(val name: String, val bg: String, val im: String, val sg: String)
+import com.google.gson.annotations.SerializedName
+
+data class VideoModel(
+    @SerializedName("name") val name: String,
+    @SerializedName("bg") val video: String,
+    @SerializedName("im") val image: String,
+    @SerializedName("sg") val audio: String
+)
