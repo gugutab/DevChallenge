@@ -46,6 +46,7 @@ class PlayerActivity : AppCompatActivity() {
     fun changeCurrentPosition(newPosition: Int) {
         currentPosition = newPosition
         videoModel = videoListModel?.objects?.get(currentPosition)
+        this.title = videoModel?.name
         setupButtons()
         setupPlayPauseButton()
         startPlayback()
