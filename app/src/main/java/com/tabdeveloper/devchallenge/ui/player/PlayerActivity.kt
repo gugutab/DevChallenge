@@ -127,7 +127,7 @@ class PlayerActivity : AppCompatActivity() {
         if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
             activity_player_play_pause_button.setImageResource(R.drawable.ic_pause_circle_outline_black_72dp)
         } else {
-            activity_player_play_pause_button.setImageResource(R.drawable.ic_play_circle_outline_black_24dp)
+            activity_player_play_pause_button.setImageResource(R.drawable.ic_play_circle_outline_black_72dp)
         }
     }
 
@@ -143,20 +143,25 @@ class PlayerActivity : AppCompatActivity() {
             activity_player_loading.isVisible = true
             activity_player_videoview.setBackgroundResource(R.drawable.dark_background)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                Glide.with(this).asDrawable().load(it.image).into(object : CustomTarget<Drawable>() {
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        //do nothing
-                    }
+                Glide.with(this).asDrawable().load(it.image)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            //do nothing
+                        }
 
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        activity_player_videoview.background = resource
-                    }
-                })
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            activity_player_videoview.background = resource
+                        }
+                    })
             }
             // video
             activity_player_videoview.setVideoPath(it.video)
             activity_player_videoview.setOnPreparedListener {
                 it.isLooping = true
+                it.setVolume(0f, 0f)
             }
             // audio
             audioMediaPlayer = MediaPlayer()
@@ -173,6 +178,10 @@ class PlayerActivity : AppCompatActivity() {
             }
             audioMediaPlayer?.setOnCompletionListener {
                 activity_player_videoview.stopPlayback()
+                activity_player_play_pause_button.setImageResource(R.drawable.ic_replay_black_72dp)
+                activity_player_play_pause_button.setOnClickListener {
+                    changeCurrentPosition(currentPosition)
+                }
             }
         }
     }
