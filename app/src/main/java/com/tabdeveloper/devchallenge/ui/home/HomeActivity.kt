@@ -7,13 +7,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.Module
 import com.tabdeveloper.devchallenge.data.services.VideoService
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
 
 class HomeActivity : AppCompatActivity() {
     val videoService = Module.createService()
+    val videoDownloadService = Module.createDownloadService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +36,24 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun loadContent() {
+        videoDownloadService.downloadFile("file_example_MP3_700KB.mp3")
+            .flatMap(Function<Response<ResponseBody>, Observable<File>>() { t ->
+                try {
+                    val file = File(this.filesDir, "audio.mp3")
+                    val fileOutputStream = FileOutputStream(file)
+                    fileOutputStream.write(t.body()?.bytes())
+                    fileOutputStream.close()
+                    return@Function Observable.just(file)
+                } catch (ex: Exception) {
+                    return@Function Observable.just(null)
+                }
+            })
+            .doOnSubscribe { Timber.d("download start") }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Timber.d("download complete")
+            }
 //                videoService.getVideoModelList()
         VideoService.getVideoModelListMock() // todo revert to actual data
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

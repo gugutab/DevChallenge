@@ -27,6 +27,14 @@ object Module {
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
         .create(VideoService::class.java)
+
+    fun createDownloadService(): VideoService = Retrofit.Builder()
+        .client(builder)
+        .baseUrl("https://file-examples.com/wp-content/uploads/2017/11/")
+        .addConverterFactory(GsonConverterFactory.create(defaultGsonBuilder))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
+        .create(VideoService::class.java)
 }
 
 class LogInterceptor : Interceptor {

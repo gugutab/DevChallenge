@@ -3,9 +3,14 @@ package com.tabdeveloper.devchallenge.data.services
 import com.tabdeveloper.devchallenge.application.AppConfiguration
 import com.tabdeveloper.devchallenge.data.model.VideoListModel
 import com.tabdeveloper.devchallenge.data.model.VideoModel
+import io.reactivex.Observable
 import io.reactivex.Single
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Streaming
+import retrofit2.http.Url
 import java.util.concurrent.TimeUnit
 
 interface VideoService {
@@ -14,6 +19,10 @@ interface VideoService {
         @Query("alt") media: String = AppConfiguration.alt,
         @Query("token") token: String = AppConfiguration.token
     ): Single<VideoListModel>
+
+    @Streaming
+    @GET
+    fun downloadFile(@Url fileUrl: String): Observable<Response<ResponseBody>>
 
     companion object {
         fun getVideoModelListMock(): Single<VideoListModel> {
