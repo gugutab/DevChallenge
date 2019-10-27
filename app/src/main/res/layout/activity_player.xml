@@ -15,6 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/activity_player_loading"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:indeterminateTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_player_videoview"
+        app:layout_constraintEnd_toEndOf="@+id/activity_player_videoview"
+        app:layout_constraintStart_toStartOf="@+id/activity_player_videoview"
+        app:layout_constraintTop_toTopOf="@+id/activity_player_videoview" />
+
     <ImageButton
         android:id="@+id/activity_player_play_pause_button"
         android:layout_width="72dp"
