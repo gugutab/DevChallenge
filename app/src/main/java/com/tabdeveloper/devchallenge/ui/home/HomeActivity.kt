@@ -29,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun loadContent() {
-        //        videoService.getVideoModelList()
+//                videoService.getVideoModelList()
         VideoService.getVideoModelListMock() // todo revert to actual data
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {

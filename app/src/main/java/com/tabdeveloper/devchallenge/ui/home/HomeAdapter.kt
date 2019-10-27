@@ -4,11 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.model.VideoListModel
@@ -52,12 +54,14 @@ class VideoListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.home_itemview_title.text = videoModel.name
         Glide.with(itemView)
             .load(videoModel.image)
+            .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.home_placeholder))
             .apply(
                 RequestOptions().transform(
                     CenterCrop(),
                     RoundedCorners(4.dpToPixels(itemView.context).roundToInt())
                 )
             )
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(itemView.home_itemview_image)
     }
 }
