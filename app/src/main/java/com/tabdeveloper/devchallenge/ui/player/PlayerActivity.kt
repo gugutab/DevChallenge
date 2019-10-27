@@ -40,6 +40,20 @@ class PlayerActivity : AppCompatActivity() {
     private var videoListModel: VideoListModel? = null
     private var videoModel: VideoModel? = null
     private var currentPosition = 0
+    var audioPrepared: Boolean = false
+        set(value) {
+            field = value
+            if (value && videoPrepared) {
+                startPlayback()
+            }
+        }
+    var videoPrepared: Boolean = false
+        set(value) {
+            field = value
+            if (value && audioPrepared) {
+                startPlayback()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -198,21 +212,6 @@ class PlayerActivity : AppCompatActivity() {
             }
         }
     }
-
-    var audioPrepared: Boolean = false
-        set(value) {
-            field = value
-            if (value && videoPrepared) {
-                startPlayback()
-            }
-        }
-    var videoPrepared: Boolean = false
-        set(value) {
-            field = value
-            if (value && audioPrepared) {
-                startPlayback()
-            }
-        }
 
     fun startPlayback() {
         Timber.d("startPlayback")
