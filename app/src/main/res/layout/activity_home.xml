@@ -6,9 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_main_recycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/activity_home_swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_home_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <LinearLayout
+        android:id="@+id/activity_home_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_cloud_off_black_24dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_home_error_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_home_reload" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/activity_home_loading"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_player_videoview"
+        app:layout_constraintEnd_toEndOf="@+id/activity_player_videoview"
+        app:layout_constraintStart_toStartOf="@+id/activity_player_videoview"
+        app:layout_constraintTop_toTopOf="@+id/activity_player_videoview"
+        tools:visibility="visible" />
 
 </FrameLayout>

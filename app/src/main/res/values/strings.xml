@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DevChallenge</string>
+    <string name="activity_home_reload">Reload</string>
 </resources>
