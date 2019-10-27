@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.Module
 import com.tabdeveloper.devchallenge.data.services.VideoService
-import com.tabdeveloper.devchallenge.utils.DownloadHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
@@ -63,9 +62,9 @@ class HomeActivity : AppCompatActivity() {
             }
             .subscribe({
 
-                DownloadHelper.downloadVideoModel(this, it.objects.first()!!, videoService).subscribe {
-                    Timber.d("download DONE!")
-                }
+//                DownloadHelper.downloadVideoModel(this, it.objects.first()!!, videoService).subscribe {
+//                    Timber.d("download DONE!")
+//                }
 
                 activity_home_recycler.layoutManager = LinearLayoutManager(this)
                 activity_home_recycler.adapter = HomeAdapter(this, it)

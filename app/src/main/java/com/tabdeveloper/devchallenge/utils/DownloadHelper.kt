@@ -14,6 +14,15 @@ import java.io.FileOutputStream
 
 class DownloadHelper {
     companion object {
+
+        fun getDownloadedVideoModel(context: Context, videoModel: VideoModel): VideoModel? {
+            val folder = File(context.filesDir, "${videoModel.name.getIntFromString()}/")
+            if (folder.exists()) {
+                return VideoModel(videoModel.name, folder.path+"/video.mp4", folder.path+"/image.jpg", folder.path+"/audio.mp3")
+            }
+            return null
+        }
+
         fun downloadVideoModel(
             context: Context,
             videoModel: VideoModel,
