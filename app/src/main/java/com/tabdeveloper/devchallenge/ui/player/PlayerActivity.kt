@@ -137,7 +137,6 @@ class PlayerActivity : AppCompatActivity() {
         activity_player_play_pause_button.isVisible = false
         activity_player_next_button.isVisible = false
         activity_player_previous_button.isVisible = false
-        audioMediaPlayer?.pause()
         audioMediaPlayer?.release()
         activity_player_videoview.stopPlayback()
         //
@@ -181,7 +180,8 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        audioMediaPlayer?.pause()
+        audioMediaPlayer?.stop()
+        audioMediaPlayer?.reset()
         audioMediaPlayer?.release()
         activity_player_videoview?.stopPlayback()
         super.onPause()
