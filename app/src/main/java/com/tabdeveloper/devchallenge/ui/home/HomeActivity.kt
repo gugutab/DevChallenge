@@ -20,7 +20,6 @@ import java.io.FileOutputStream
 
 class HomeActivity : AppCompatActivity() {
     val videoService = Module.createService()
-    val videoDownloadService = Module.createDownloadService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +35,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun loadContent() {
-        videoDownloadService.downloadFile("file_example_MP3_700KB.mp3")
+        videoService.downloadFile("https://miro.medium.com/max/3000/1*MI686k5sDQrISBM6L8pf5A.jpeg")
             .flatMap(Function<Response<ResponseBody>, Observable<File>>() { t ->
                 try {
-                    val file = File(this.filesDir, "audio.mp3")
+                    val file = File(this.filesDir, "image.jpg")
                     val fileOutputStream = FileOutputStream(file)
                     fileOutputStream.write(t.body()?.bytes())
                     fileOutputStream.close()
