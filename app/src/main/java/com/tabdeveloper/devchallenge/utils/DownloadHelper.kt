@@ -15,10 +15,27 @@ import java.io.FileOutputStream
 class DownloadHelper {
     companion object {
 
+        val videoFileName: String = "video"
+        val audioFileName: String = "audio"
+        val imageFileName: String = "image"
+        val downloadCompleteFileName: String = "download_complete"
+
         fun getDownloadedVideoModel(context: Context, videoModel: VideoModel): VideoModel? {
-            val folder = File(context.filesDir, "${videoModel.name.getIntFromString()}/")
+            val folder = File(
+                context.filesDir,
+                "${videoModel.name.getIntFromString()}/"
+            )
             if (folder.exists()) {
-                return VideoModel(videoModel.name, folder.path+"/video.mp4", folder.path+"/image.jpg", folder.path+"/audio.mp3")
+                val completeFile =
+                    File(folder.path, "/$downloadCompleteFileName")
+                if (completeFile.exists()) {
+                    return VideoModel(
+                        videoModel.name,
+                        "${folder.path}/$videoFileName",
+                        "${folder.path}/$imageFileName",
+                        "${folder.path}/$audioFileName"
+                    )
+                }
             }
             return null
         }
@@ -34,11 +51,19 @@ class DownloadHelper {
                 folder.mkdirs()
             }
             //
-            return Observable.concat<File>(
-                downloadFile(videoService, videoModel.audio, folder, "audio.mp3"),
-                downloadFile(videoService, videoModel.image, folder, "image.jpg"),
-                downloadFile(videoService, videoModel.video, folder, "video.mp4")
-            )
+            return Observable.concat(
+                downloadFile(videoService, videoModel.audio, folder, audioFileName),
+                downloadFile(videoService, videoModel.image, folder, imageFileName),
+                downloadFile(videoService, videoModel.video, folder, videoFileName)
+            ).doOnComplete {
+                val completeFile = File(folder, downloadCompleteFileName)
+                val stream = FileOutputStream(completeFile)
+                try {
+                    stream.write("done".toByteArray())
+                } finally {
+                    stream.close()
+                }
+            }
 
         }
 

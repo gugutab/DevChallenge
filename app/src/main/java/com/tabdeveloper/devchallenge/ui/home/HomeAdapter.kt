@@ -1,6 +1,5 @@
 package com.tabdeveloper.devchallenge.ui.home
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ import timber.log.Timber
 import kotlin.math.roundToInt
 
 class HomeAdapter(
-    val context: Context,
     val videoListModel: VideoListModel,
     val videoService: VideoService
 ) :
@@ -93,6 +91,7 @@ class VideoListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         } ?: run {
             itemView.home_itemview_download_button.setOnClickListener {
                 DownloadHelper.downloadVideoModel(itemView.context, videoModel, videoService)
+                    .doOnComplete { this.bind(videoModel, position, videoListModel, videoService) }
                     .subscribe {
                         Timber.d("download DONE!")
                     }

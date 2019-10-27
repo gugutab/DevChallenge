@@ -38,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
             }
             .subscribe({
                 activity_home_recycler.layoutManager = LinearLayoutManager(this)
-                activity_home_recycler.adapter = HomeAdapter(this, it, videoService)
+                activity_home_recycler.adapter = HomeAdapter(it, videoService)
                 activity_home_loading.isVisible = false
                 activity_home_swipe_layout.isVisible = true
             },
