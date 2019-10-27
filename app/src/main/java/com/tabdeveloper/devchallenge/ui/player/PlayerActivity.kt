@@ -17,6 +17,7 @@ import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.model.VideoListModel
 import com.tabdeveloper.devchallenge.data.model.VideoModel
 import kotlinx.android.synthetic.main.activity_player.*
+import timber.log.Timber
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -56,7 +57,7 @@ class PlayerActivity : AppCompatActivity() {
         currentPosition = newPosition
         videoModel = videoListModel?.objects?.get(currentPosition)
         this.title = videoModel?.name
-        startPlayback()
+        preparePlayback()
     }
 
     private fun setupButtons() {
@@ -131,8 +132,10 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun startPlayback() {
+    private fun preparePlayback() {
         // clear
+        videoPrepared = false
+        audioPrepared = false
         activity_player_play_pause_button.isVisible = false
         activity_player_next_button.isVisible = false
         activity_player_previous_button.isVisible = false
@@ -160,21 +163,31 @@ class PlayerActivity : AppCompatActivity() {
             // video
             activity_player_videoview.setVideoPath(it.video)
             activity_player_videoview.setOnPreparedListener {
+                Timber.d("video prepared")
+                videoPrepared = true
                 it.isLooping = true
                 it.setVolume(0f, 0f)
+                it.setOnInfoListener { mp, what, extra ->
+                    when (what) {
+                        MediaPlayer.MEDIA_INFO_BUFFERING_START -> {
+                            Timber.d("setOnInfoListener MEDIA_INFO_BUFFERING_START")
+                            activity_player_loading.isVisible = true
+                        }
+                        MediaPlayer.MEDIA_INFO_BUFFERING_END -> {
+                            Timber.d("setOnInfoListener MEDIA_INFO_BUFFERING_END")
+                            activity_player_loading.isVisible = false
+                        }
+                    }
+                    true
+                }
             }
             // audio
             audioMediaPlayer = MediaPlayer()
             audioMediaPlayer?.setDataSource(it.audio)
             audioMediaPlayer?.prepareAsync()
             audioMediaPlayer?.setOnPreparedListener {
-                it.start()
-                activity_player_play_pause_button.isVisible = true
-                setupButtons()
-                setupPlayPauseButton()
-                activity_player_videoview.setBackgroundResource(0)
-                activity_player_videoview.start()
-                activity_player_loading.isVisible = false
+                Timber.d("audio prepared")
+                audioPrepared = true
             }
             audioMediaPlayer?.setOnCompletionListener {
                 activity_player_videoview.stopPlayback()
@@ -184,6 +197,32 @@ class PlayerActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    var audioPrepared: Boolean = false
+        set(value) {
+            field = value
+            if (value && videoPrepared) {
+                startPlayback()
+            }
+        }
+    var videoPrepared: Boolean = false
+        set(value) {
+            field = value
+            if (value && audioPrepared) {
+                startPlayback()
+            }
+        }
+
+    fun startPlayback() {
+        Timber.d("startPlayback")
+        activity_player_videoview.setBackgroundResource(0)
+        activity_player_videoview.start()
+        activity_player_play_pause_button.isVisible = true
+        setupButtons()
+        setupPlayPauseButton()
+        activity_player_loading.isVisible = false
+        audioMediaPlayer?.start()
     }
 
     override fun onPause() {

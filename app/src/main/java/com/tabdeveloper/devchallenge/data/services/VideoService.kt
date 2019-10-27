@@ -19,7 +19,8 @@ interface VideoService {
         fun getVideoModelListMock(): Single<VideoListModel> {
             val videoModel = VideoModel(
                 "Title",
-                "https://testdrive-archive.azurewebsites.net/Graphics/VideoFormatSupport/big_buck_bunny_trailer_480p_baseline.mp4",
+//                "https://testdrive-archive.azurewebsites.net/Graphics/VideoFormatSupport/big_buck_bunny_trailer_480p_baseline.mp4",
+                "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_30mb.mp4",
                 "https://miro.medium.com/max/3000/1*MI686k5sDQrISBM6L8pf5A.jpeg",
                 "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3"
             )
