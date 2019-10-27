@@ -2,10 +2,10 @@ package com.tabdeveloper.devchallenge.ui.player
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Build
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,7 +17,6 @@ import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.model.VideoListModel
 import com.tabdeveloper.devchallenge.data.model.VideoModel
 import kotlinx.android.synthetic.main.activity_player.*
-import timber.log.Timber
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -42,10 +41,10 @@ class PlayerActivity : AppCompatActivity() {
     private var currentPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         videoListModel = intent.getParcelableExtra(VIDEO_LIST_MODEL)
-//        changeCurrentPosition(intent.getIntExtra(SELECTED_POSITION, 0))
     }
 
     override fun onResume() {
@@ -53,14 +52,14 @@ class PlayerActivity : AppCompatActivity() {
         super.onResume()
     }
 
-    fun changeCurrentPosition(newPosition: Int) {
+    private fun changeCurrentPosition(newPosition: Int) {
         currentPosition = newPosition
         videoModel = videoListModel?.objects?.get(currentPosition)
         this.title = videoModel?.name
         startPlayback()
     }
 
-    fun setupButtons() {
+    private fun setupButtons() {
         setupPlayPauseButton()
         activity_player_play_pause_button.setOnClickListener {
             if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
@@ -124,7 +123,7 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    fun setupPlayPauseButton() {
+    private fun setupPlayPauseButton() {
         if (audioMediaPlayer != null && audioMediaPlayer!!.isPlaying) {
             activity_player_play_pause_button.setImageResource(R.drawable.ic_pause_circle_outline_black_72dp)
         } else {
@@ -132,7 +131,7 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    fun startPlayback() {
+    private fun startPlayback() {
         // clear
         activity_player_play_pause_button.isVisible = false
         activity_player_next_button.isVisible = false
@@ -142,7 +141,7 @@ class PlayerActivity : AppCompatActivity() {
         //
         videoModel?.let {
             activity_player_loading.isVisible = true
-            activity_player_videoview.setBackgroundResource(R.drawable.ic_launcher_background)
+            activity_player_videoview.setBackgroundResource(R.drawable.dark_background)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 Glide.with(this).asDrawable().load(it.image).into(object : CustomTarget<Drawable>() {
                     override fun onLoadCleared(placeholder: Drawable?) {
@@ -164,7 +163,6 @@ class PlayerActivity : AppCompatActivity() {
             audioMediaPlayer?.setDataSource(it.audio)
             audioMediaPlayer?.prepareAsync()
             audioMediaPlayer?.setOnPreparedListener {
-                Timber.d("prepared")
                 it.start()
                 activity_player_play_pause_button.isVisible = true
                 setupButtons()

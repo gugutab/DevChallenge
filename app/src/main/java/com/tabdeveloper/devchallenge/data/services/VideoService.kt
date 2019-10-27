@@ -16,7 +16,7 @@ interface VideoService {
 
     companion object{
         fun getVideoModelListMock(): Single<VideoListModel>{
-            val videoModel = VideoModel("Title", "https://ak3.picdn.net/shutterstock/videos/1011845243/preview/stock-footage--d-render-abstract-seamless-background-looped-animation-fluorescent-ultraviolet-light-glowing.mp4",
+            val videoModel = VideoModel("Title", "https://testdrive-archive.azurewebsites.net/Graphics/VideoFormatSupport/big_buck_bunny_trailer_480p_baseline.mp4",
                 "https://miro.medium.com/max/3000/1*MI686k5sDQrISBM6L8pf5A.jpeg", "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3")
             val list = VideoListModel(listOf(videoModel, videoModel, videoModel, videoModel, videoModel))
             return Single.just(list)
