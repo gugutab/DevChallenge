@@ -3,16 +3,15 @@ package com.tabdeveloper.devchallenge.ui.player
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.model.VideoListModel
 import com.tabdeveloper.devchallenge.data.model.VideoModel
@@ -164,22 +163,12 @@ class PlayerActivity : AppCompatActivity() {
         //
         videoModel?.let {
             activity_player_loading.isVisible = true
-            activity_player_videoview.setBackgroundResource(R.drawable.dark_background)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                Glide.with(this).asDrawable().load(videoModelDownloaded?.image ?: it.image)
-                    .into(object : CustomTarget<Drawable>() {
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            //do nothing
-                        }
-
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            activity_player_videoview.background = resource
-                        }
-                    })
-            }
+            activity_player_image.isVisible = true
+            Glide.with(this)
+                .load(videoModelDownloaded?.image ?: it.image)
+                .apply(RequestOptions().transform(CenterCrop()))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(activity_player_image)
             // video
             activity_player_videoview.setVideoPath(videoModelDownloaded?.video ?: it.video)
             activity_player_videoview.setOnPreparedListener {
@@ -220,14 +209,15 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     fun startPlayback() {
+        activity_player_image.isVisible = false
         Timber.d("startPlayback")
         activity_player_videoview.setBackgroundResource(0)
         activity_player_videoview.start()
         activity_player_play_pause_button.isVisible = true
         setupButtons()
-        setupPlayPauseButton()
         activity_player_loading.isVisible = false
         audioMediaPlayer?.start()
+        setupPlayPauseButton()
     }
 
     override fun onPause() {
