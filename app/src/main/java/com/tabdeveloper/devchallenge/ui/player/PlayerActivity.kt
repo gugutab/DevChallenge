@@ -215,9 +215,10 @@ class PlayerActivity : AppCompatActivity() {
                     when (playbackState) {
                         Player.STATE_BUFFERING -> activity_player_loading.isVisible = true
                         Player.STATE_READY -> {
-                            activity_player_loading.isVisible = false
                             if (!videoPrepared) {
                                 videoPrepared = true
+                            } else{
+                                activity_player_loading.isVisible = false
                             }
                         }
                     }
