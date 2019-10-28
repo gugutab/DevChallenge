@@ -1,5 +1,6 @@
 package com.tabdeveloper.devchallenge.ui.home
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -18,6 +19,7 @@ class HomeActivity : AppCompatActivity() {
     val videoService = Module.createService()
     var useMock: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         loadContent()
