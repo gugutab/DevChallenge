@@ -27,6 +27,12 @@ interface VideoService {
     companion object {
         fun getVideoModelListMock(): Single<VideoListModel> {
             val videoModel = VideoModel(
+                "Loop Video",
+                "https://ak3.picdn.net/shutterstock/videos/1011845243/preview/stock-footage--d-render-abstract-seamless-background-looped-animation-fluorescent-ultraviolet-light-glowing.mp4",
+                "https://cdn.pixabay.com/photo/2019/10/23/16/36/black-4572125__340.jpg",
+                "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3"
+            )
+            val videoModel1 = VideoModel(
                 "Big Buck Bunny (240p)",
                 "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_5mb.mp4",
                 "https://cdn.pixabay.com/photo/2016/11/09/16/24/virus-1812092__340.jpg",
@@ -46,7 +52,7 @@ interface VideoService {
             )
 
             val list =
-                VideoListModel(listOf(videoModel, videoModel2, videoModel3))
+                VideoListModel(listOf(videoModel, videoModel1, videoModel2, videoModel3))
             return Single.just(list)
                 .delay(1, TimeUnit.SECONDS)
 //                .timeout(4, TimeUnit.SECONDS)
