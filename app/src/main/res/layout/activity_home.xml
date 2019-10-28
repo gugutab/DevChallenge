@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:layout_marginBottom="56dp"
         tools:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -19,9 +20,9 @@
             android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
     <LinearLayout
         android:id="@+id/activity_home_error"
+        android:layout_marginBottom="56dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -47,6 +48,7 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_gravity="center"
+        android:layout_marginBottom="56dp"
         android:indeterminateTint="@color/colorPrimary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/activity_player_videoview"
@@ -54,5 +56,19 @@
         app:layout_constraintStart_toStartOf="@+id/activity_player_videoview"
         app:layout_constraintTop_toTopOf="@+id/activity_player_videoview"
         tools:visibility="visible" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="@color/gray">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/activity_home_mock_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:text="@string/activity_home_mock_switch" />
+    </FrameLayout>
 
 </FrameLayout>
