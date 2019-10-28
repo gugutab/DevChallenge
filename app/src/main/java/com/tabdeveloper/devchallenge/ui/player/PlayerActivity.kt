@@ -16,6 +16,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.model.VideoListModel
 import com.tabdeveloper.devchallenge.data.model.VideoModel
+import com.tabdeveloper.devchallenge.utils.DownloadHelper
 import kotlinx.android.synthetic.main.activity_player.*
 import timber.log.Timber
 
@@ -39,6 +40,7 @@ class PlayerActivity : AppCompatActivity() {
     private var audioMediaPlayer: MediaPlayer? = null
     private var videoListModel: VideoListModel? = null
     private var videoModel: VideoModel? = null
+    private var videoModelDownloaded: VideoModel? = null
     private var currentPosition = 0
     var audioPrepared: Boolean = false
         set(value) {
@@ -70,6 +72,10 @@ class PlayerActivity : AppCompatActivity() {
     private fun changeCurrentPosition(newPosition: Int) {
         currentPosition = newPosition
         videoModel = videoListModel?.objects?.get(currentPosition)
+        DownloadHelper.getDownloadedVideoModel(this, videoModel!!)?.let {
+            Timber.d("is downloaded!")
+            videoModelDownloaded = it
+        } ?: run { videoModelDownloaded = null }
         this.title = videoModel?.name
         preparePlayback()
     }
@@ -160,7 +166,7 @@ class PlayerActivity : AppCompatActivity() {
             activity_player_loading.isVisible = true
             activity_player_videoview.setBackgroundResource(R.drawable.dark_background)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                Glide.with(this).asDrawable().load(it.image)
+                Glide.with(this).asDrawable().load(videoModelDownloaded?.image ?: it.image)
                     .into(object : CustomTarget<Drawable>() {
                         override fun onLoadCleared(placeholder: Drawable?) {
                             //do nothing
@@ -175,7 +181,7 @@ class PlayerActivity : AppCompatActivity() {
                     })
             }
             // video
-            activity_player_videoview.setVideoPath(it.video)
+            activity_player_videoview.setVideoPath(videoModelDownloaded?.video ?: it.video)
             activity_player_videoview.setOnPreparedListener {
                 Timber.d("video prepared")
                 videoPrepared = true
@@ -197,7 +203,7 @@ class PlayerActivity : AppCompatActivity() {
             }
             // audio
             audioMediaPlayer = MediaPlayer()
-            audioMediaPlayer?.setDataSource(it.audio)
+            audioMediaPlayer?.setDataSource(videoModelDownloaded?.audio ?: it.audio)
             audioMediaPlayer?.prepareAsync()
             audioMediaPlayer?.setOnPreparedListener {
                 Timber.d("audio prepared")

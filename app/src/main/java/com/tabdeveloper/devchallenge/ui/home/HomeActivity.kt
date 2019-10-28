@@ -29,7 +29,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun loadContent() {
-//                videoService.getVideoModelList()
         VideoService.getVideoModelListMock() // todo revert to actual data
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
@@ -39,7 +38,7 @@ class HomeActivity : AppCompatActivity() {
             }
             .subscribe({
                 activity_home_recycler.layoutManager = LinearLayoutManager(this)
-                activity_home_recycler.adapter = HomeAdapter(this, it)
+                activity_home_recycler.adapter = HomeAdapter(it, videoService)
                 activity_home_loading.isVisible = false
                 activity_home_swipe_layout.isVisible = true
             },
