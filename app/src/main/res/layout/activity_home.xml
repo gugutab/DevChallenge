@@ -51,10 +51,10 @@
         android:layout_marginBottom="56dp"
         android:indeterminateTint="@color/colorPrimary"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_player_videoview"
-        app:layout_constraintEnd_toEndOf="@+id/activity_player_videoview"
-        app:layout_constraintStart_toStartOf="@+id/activity_player_videoview"
-        app:layout_constraintTop_toTopOf="@+id/activity_player_videoview"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_player_playerview"
+        app:layout_constraintEnd_toEndOf="@+id/activity_player_playerview"
+        app:layout_constraintStart_toStartOf="@+id/activity_player_playerview"
+        app:layout_constraintTop_toTopOf="@+id/activity_player_playerview"
         tools:visibility="visible" />
 
     <FrameLayout
