@@ -27,27 +27,27 @@ interface VideoService {
     companion object {
         fun getVideoModelListMock(): Single<VideoListModel> {
             val videoModel = VideoModel(
-                "Loop Video",
+                "Abstract Glowing Loop Video",
                 "https://ak3.picdn.net/shutterstock/videos/1011845243/preview/stock-footage--d-render-abstract-seamless-background-looped-animation-fluorescent-ultraviolet-light-glowing.mp4",
-                "https://cdn.pixabay.com/photo/2019/10/23/16/36/black-4572125__340.jpg",
+                "https://ak7.picdn.net/shutterstock/videos/1035100667/thumb/1.jpg",
                 "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3"
             )
             val videoModel1 = VideoModel(
-                "Big Buck Bunny (240p)",
-                "https://sample-videos.com/video123/mp4/240/big_buck_bunny_240p_5mb.mp4",
-                "https://cdn.pixabay.com/photo/2016/11/09/16/24/virus-1812092__340.jpg",
+                "Neon Glow Loop Video",
+                "https://ak6.picdn.net/shutterstock/videos/1027713866/preview/stock-footage-tv-series-colorful-neon-glow-color-moving-seamless-art-loop-background-abstract-motion-screen.mp4",
+                "https://ak6.picdn.net/shutterstock/videos/1027713866/thumb/10.jpg",
                 "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3"
             )
             val videoModel2 = VideoModel(
-                "Big Buck Bunny (480p)",
-                "https://testdrive-archive.azurewebsites.net/Graphics/VideoFormatSupport/big_buck_bunny_trailer_480p_baseline.mp4",
-                "https://cdn.pixabay.com/photo/2014/02/27/16/09/microscope-275984__340.jpg",
+                "White Steam Loop Video",
+                "https://ak9.picdn.net/shutterstock/videos/1024315289/preview/stock-footage-white-steam-spins-and-rises-from-the-pan-white-smoke-rises-from-a-large-pot-which-is-located.mp4",
+                "https://ak9.picdn.net/shutterstock/videos/1024315289/thumb/7.jpg",
                 "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3"
             )
             val videoModel3 = VideoModel(
-                "Big Buck Bunny (720p)",
-                "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_30mb.mp4",
-                "https://cdn.pixabay.com/photo/2017/06/13/13/49/indoor-2398938__340.jpg",
+                "Rain Loop Video",
+                "https://ak3.picdn.net/shutterstock/videos/1028275673/preview/stock-footage--k-loop-rain-drops-falling-alpha-real-rain-high-quality-slow-rain-thunder-speedy-night.mp4",
+                "https://ak3.picdn.net/shutterstock/videos/1028275673/thumb/1.jpg",
                 "https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3"
             )
 
