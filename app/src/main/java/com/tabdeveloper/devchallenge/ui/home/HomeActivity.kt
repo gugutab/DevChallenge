@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tabdeveloper.devchallenge.R
 import com.tabdeveloper.devchallenge.data.Module
-import com.tabdeveloper.devchallenge.data.services.VideoService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
@@ -29,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun loadContent() {
-        VideoService.getVideoModelListMock() // todo revert to actual data
+        videoService.getVideoModelList() //to use mock, user this: VideoService.getVideoModelListMock()
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
                 activity_home_loading.isVisible = true
