@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DevChallenge</string>
+    <string name="app_name">DevChallenge (ExoPlayer)</string>
     <string name="activity_home_reload">Reload</string>
     <string name="download_dialog_title">Downloading</string>
     <string name="download_dialog_cancel">Cancel Download</string>
