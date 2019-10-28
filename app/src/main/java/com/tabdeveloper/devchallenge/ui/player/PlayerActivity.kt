@@ -172,7 +172,6 @@ class PlayerActivity : AppCompatActivity() {
         activity_player_next_button.isVisible = false
         activity_player_previous_button.isVisible = false
         audioMediaPlayer?.release()
-//        activity_player_videoview.stopPlayback()
         exoplayer?.stop(true)
         //
         videoModel?.let {
@@ -206,7 +205,7 @@ class PlayerActivity : AppCompatActivity() {
             val videoSource = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(Uri.parse(videoModelDownloaded?.video ?: it.video))
             // Prepare the player with the source.
-            exoplayer?.playWhenReady = true
+            exoplayer?.playWhenReady = false
             exoplayer?.prepare(videoSource)
             exoplayer?.volume = 0f
             exoplayer?.repeatMode = Player.REPEAT_MODE_ALL
