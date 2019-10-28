@@ -207,7 +207,7 @@ class PlayerActivity : AppCompatActivity() {
                         Player.STATE_READY -> {
                             if (!videoPrepared) {
                                 videoPrepared = true
-                            } else {
+                            } else if(audioPrepared){
                                 activity_player_loading.isVisible = false
                             }
                         }
